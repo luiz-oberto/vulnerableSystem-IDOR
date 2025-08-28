@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Painel — Boletim{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-8">
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <h2 class="h5 mb-3">Demonstração IDOR</h2>
+        <p class="mb-2">Este app tem duas formas de visualizar notas:</p>
+        <ul>
+          <li><strong>Vulnerável:</strong> <code>/notas/&lt;aluno_id&gt;</code> — troca o ID na URL e tente acessar notas de outro aluno.</li>
+          <li><strong>Segura:</strong> <code>/minhas-notas</code> — retorna apenas as suas notas (validação por sessão).</li>
+        </ul>
+        <div class="alert alert-warning">
+          Estado atual: <strong>{{ 'VULNERÁVEL' if current_app.config['VULNERABLE'] else 'SEGURO' }}</strong>.
+          (Ajuste em <code>app.py</code>)
+        </div>
+        <a class="btn btn-outline-primary me-2" href="{{ url_for('minhas_notas') }}">Ver minhas notas (seguro)</a>
+        <a class="btn btn-outline-danger" href="{{ url_for('notas_aluno', aluno_id=session['user_id']) }}">Acessar via ID (vulnerável)</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

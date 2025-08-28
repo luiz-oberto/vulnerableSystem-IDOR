@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Minhas Notas — (Rota Segura){% endblock %}
+{% block content %}
+<h1 class="h4">Minhas Notas (SEGURO): {{ aluno.nome }}</h1>
+<table class="table table-hover">
+  <thead><tr><th>Disciplina</th><th>Nota</th></tr></thead>
+  <tbody>
+    {% for n in notas %}
+    <tr><td>{{ n.disciplina }}</td><td>{{ '%.1f'|format(n.nota) }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a class="btn btn-secondary" href="{{ url_for('index') }}">Voltar</a>
+{% endblock %}

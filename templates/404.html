@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Não encontrado (404){% endblock %}
+{% block content %}
+<div class="alert alert-warning">
+  <h4 class="alert-heading">404 — Não encontrado</h4>
+  <p>O recurso solicitado não existe.</p>
+  <hr>
+  <p class="mb-0"><a href="{{ url_for('index') }}" class="btn btn-warning">Voltar ao painel</a></p>
+</div>
+{% endblock %}

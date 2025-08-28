@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Acesso negado (403){% endblock %}
+{% block content %}
+<div class="alert alert-danger">
+  <h4 class="alert-heading">403 — Acesso negado</h4>
+  <p>Você tentou acessar um recurso que não pertence a você.</p>
+  <hr>
+  <p class="mb-0"><a href="{{ url_for('index') }}" class="btn btn-danger">Voltar ao painel</a></p>
+</div>
+{% endblock %}

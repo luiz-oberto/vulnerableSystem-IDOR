@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Login — Boletim{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 mb-3">Acessar</h1>
+        <form method="post">
+          <div class="mb-3">
+            <label class="form-label">Usuário</label>
+            <input class="form-control" name="username" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Senha</label>
+            <input type="password" class="form-control" name="password" required>
+          </div>
+          <button class="btn btn-primary w-100">Entrar</button>
+        </form>
+        <hr>
+        <p class="text-muted small mb-0">
+          Use <code>alice/alice</code> ou <code>bob/bob</code>.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
