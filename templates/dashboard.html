@@ -15,15 +15,23 @@
           Estado atual: <strong>{{ 'VULNERÁVEL' if current_app.config['VULNERABLE'] else 'SEGURO' }}</strong>.
           (Ajuste em <code>app.py</code>)
         </div>
-        <a class="btn btn-outline-primary me-2" href="{{ url_for('minhas_notas') }}">Ver minhas notas (seguro)</a>
-        <a class="btn btn-outline-danger me-2" href="{{ url_for('notas_aluno', aluno_id=session['user_id']) }}">Acessar via ID (vulnerável)</a>
-        <a class="btn btn-outline-primary me-2" href="{{ url_for('meus_dados') }}">
-          Meus dados (seguro)
-        </a>
-        <a class="btn btn-outline-danger" href="{{ url_for('dados_pessoais', aluno_id=session['user_id']) }}">
-          Ver meus dados (via ID na URL)
-        </a>
-
+        <ul class="list-group-flush">
+          <h3 class="h5 mb-3">Rotas vulneráveis:</h3>
+          <li class="list-group-item">
+            <a class="btn btn-outline-primary me-2" href="{{ url_for('minhas_notas') }}">Ver minhas notas (seguro)</a>
+            <a class="btn btn-outline-primary me-2" href="{{ url_for('meus_dados') }}">
+              Meus dados (seguro)
+            </a>
+          </li>
+          <h3 class="h5 mt-3 mb-3">Rotas Seguras:</h3>
+          <li class="list-group-item">
+            <a class="btn btn-outline-danger me-2" href="{{ url_for('notas_aluno', aluno_id=session['user_id']) }}">Acessar via notas (vulnerável)</a>
+            <a class="btn btn-outline-danger" href="{{ url_for('dados_pessoais', aluno_id=session['user_id']) }}">
+              Ver meus dados (via ID na URL)
+            </a>
+          </li>
+        </ul>
+      
       </div>
     </div>
   </div>

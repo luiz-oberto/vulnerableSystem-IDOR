@@ -33,7 +33,7 @@ def index():
     if target == 'dados':
         return redirect(url_for('meus_dados'))
     # padrão: notas
-    return redirect(url_for('minhas_notas'))
+    return redirect(url_for('notas_aluno'))
 
 @app.route('/dashboard')
 @login_required
@@ -50,7 +50,7 @@ def login():
         if user and user.password_plain == password:
             session['user_id'] = user.id
             flash('Login efetuado com sucesso.', 'success')
-            next_url = request.args.get('next') or url_for('index') # index | 'notas_aluno', aluno_id=session['user_id']
+            next_url = request.args.get('next') or url_for('notas_aluno', aluno_id=session['user_id']) # index | 'notas_aluno', aluno_id=session['user_id']
             return redirect(next_url)
         flash('Credenciais inválidas.', 'danger')
     return render_template('login.html')
