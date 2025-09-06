@@ -22,3 +22,19 @@ class Nota(db.Model):
 
     def __repr__(self):
         return f'<Nota {self.disciplina}={self.nota} aluno={self.aluno_id}>'
+
+class AlunoInfo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    aluno_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=True, index=True)
+    matricula = db.Column(db.String(30), nullable=False, unique=True)
+    nome_pai = db.Column(db.String(120))
+    nome_mae = db.Column(db.String(120))
+    cpf = db.Column(db.String(14))  # formato fictício: 000.000.000-00
+    telefone = db.Column(db.String(30))
+    email_contato = db.Column(db.String(120))
+    endereco = db.Column(db.String(255))
+
+    aluno = db.relationship('User', backref='info_pessoal', uselist=False)
+
+    def __repr__(self):
+        return f'<AlunoInfo {self.matricula} aluno={self.aluno_id}>'

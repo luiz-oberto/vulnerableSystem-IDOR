@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Meus Dados — (Rota Segura){% endblock %}
+{% block content %}
+<h1 class="h4">Meus Dados (SEGURO): {{ aluno.nome }}</h1>
+
+<div class="card">
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3">Matrícula</dt><dd class="col-sm-9">{{ info.matricula }}</dd>
+      <dt class="col-sm-3">CPF</dt><dd class="col-sm-9">{{ info.cpf }}</dd>
+      <dt class="col-sm-3">Nome do Pai</dt><dd class="col-sm-9">{{ info.nome_pai }}</dd>
+      <dt class="col-sm-3">Nome da Mãe</dt><dd class="col-sm-9">{{ info.nome_mae }}</dd>
+      <dt class="col-sm-3">E-mail</dt><dd class="col-sm-9">{{ info.email_contato }}</dd>
+      <dt class="col-sm-3">Telefone</dt><dd class="col-sm-9">{{ info.telefone }}</dd>
+      <dt class="col-sm-3">Endereço</dt><dd class="col-sm-9">{{ info.endereco }}</dd>
+    </dl>
+  </div>
+</div>
+
+<a class="btn btn-secondary mt-3" href="{{ url_for('index') }}">Voltar</a>
+{% endblock %}

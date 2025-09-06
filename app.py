@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, abort, flash
 from flask_sqlalchemy import SQLAlchemy
-from models import db, User, Nota
+from models import db, User, Nota, AlunoInfo
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dev-secret-key'  # para demo
@@ -12,6 +12,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # False -> rota /notas/<aluno_id> exige que aluno_id == session['user_id']
 app.config['VULNERABLE'] = True
 
+# página inicial
+app.config['START_PAGE'] = 'notas'
+
 db.init_app(app)
 
 def login_required(view):
@@ -22,9 +25,19 @@ def login_required(view):
     wrapper.__name__ = view.__name__
     return wrapper
 
+
 @app.route('/')
 @login_required
 def index():
+    target = app.config.get('START_PAGE', 'notas')
+    if target == 'dados':
+        return redirect(url_for('meus_dados'))
+    # padrão: notas
+    return redirect(url_for('minhas_notas'))
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
     user = User.query.get(session['user_id'])
     return render_template('dashboard.html', user=user, current_app=app)
 
@@ -37,7 +50,7 @@ def login():
         if user and user.password_plain == password:
             session['user_id'] = user.id
             flash('Login efetuado com sucesso.', 'success')
-            next_url = request.args.get('next') or url_for('index')
+            next_url = request.args.get('next') or url_for('index') # index | 'notas_aluno', aluno_id=session['user_id']
             return redirect(next_url)
         flash('Credenciais inválidas.', 'danger')
     return render_template('login.html')
@@ -69,6 +82,34 @@ def minhas_notas():
     aluno = User.query.get_or_404(aluno_id)
     notas = Nota.query.filter_by(aluno_id=aluno_id).all()
     return render_template('notas_seguro.html', aluno=aluno, notas=notas)
+
+# --------- Dados Pessoais (IDOR explícito) ---------
+@app.route('/dados/<int:aluno_id>')
+@login_required
+def dados_pessoais(aluno_id):
+    # Se estiver no modo SEGURO, só permite ver os próprios dados
+    if not app.config['VULNERABLE']:
+        if session['user_id'] != aluno_id:
+            abort(403)
+
+    aluno = User.query.get_or_404(aluno_id)
+    info = AlunoInfo.query.filter_by(aluno_id=aluno_id).first_or_404()
+
+    # Use um template diferente para enfatizar a vulnerabilidade
+    template = 'dados_vulneravel.html' if app.config['VULNERABLE'] else 'dados_seguro.html'
+    return render_template(template, aluno=aluno, info=info)
+
+@app.route('/meus-dados')
+@login_required
+def meus_dados():
+    aluno_id = session['user_id']
+    aluno = User.query.get_or_404(aluno_id)
+    info = AlunoInfo.query.filter_by(aluno_id=aluno_id).first()
+    if not info:
+        flash('Sem dados pessoais cadastrados.', 'warning')
+        return redirect(url_for('index'))
+    return render_template('dados_seguro.html', aluno=aluno, info=info)
+
 
 @app.errorhandler(403)
 def forbidden(e):

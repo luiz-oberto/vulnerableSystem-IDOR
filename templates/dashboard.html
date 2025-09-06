@@ -2,7 +2,7 @@
 {% block title %}Painel — Boletim{% endblock %}
 {% block content %}
 <div class="row">
-  <div class="col-lg-8">
+  <div class="col-lg-12">
     <div class="card shadow-sm mb-3">
       <div class="card-body">
         <h2 class="h5 mb-3">Demonstração IDOR</h2>
@@ -16,7 +16,14 @@
           (Ajuste em <code>app.py</code>)
         </div>
         <a class="btn btn-outline-primary me-2" href="{{ url_for('minhas_notas') }}">Ver minhas notas (seguro)</a>
-        <a class="btn btn-outline-danger" href="{{ url_for('notas_aluno', aluno_id=session['user_id']) }}">Acessar via ID (vulnerável)</a>
+        <a class="btn btn-outline-danger me-2" href="{{ url_for('notas_aluno', aluno_id=session['user_id']) }}">Acessar via ID (vulnerável)</a>
+        <a class="btn btn-outline-primary me-2" href="{{ url_for('meus_dados') }}">
+          Meus dados (seguro)
+        </a>
+        <a class="btn btn-outline-danger" href="{{ url_for('dados_pessoais', aluno_id=session['user_id']) }}">
+          Ver meus dados (via ID na URL)
+        </a>
+
       </div>
     </div>
   </div>
