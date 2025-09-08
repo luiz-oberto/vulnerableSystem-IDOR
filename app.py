@@ -33,7 +33,7 @@ def index():
     if target == 'dados':
         return redirect(url_for('meus_dados'))
     # padrão: notas
-    return redirect(url_for('notas_aluno'))
+    return redirect(url_for('notas_aluno', aluno_id=session['user_id']))
 
 @app.route('/dashboard')
 @login_required
